@@ -1,0 +1,258 @@
+.registration-form {
+  width:200px;
+  height:300px;
+  padding: 10px;
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  position: absolute;
+  left: 45%;
+  top: 35%;
+  margin-top: -100px;
+  margin-left: -75px; 
+  text-align: center;
+}
+
+.registration-form > h2{
+  color: rgb(122, 180, 235);
+  margin-left: -5px;
+}
+
+.registration-form .button {
+  width: 75px;
+  height: 20px;
+  padding: 0;
+  color: #679ef0;
+  font-size:16px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 800;
+  border: none;
+  background-color: inherit;
+  margin-left: 10px;
+  position: absolute;
+  left: 62px;
+  bottom: 5px;
+}
+
+.registration-form .button:hover {
+  cursor: pointer;
+  color:red;
+  background-color: inherit;
+}
+
+.registration-form .text {
+  height:25px;
+  padding-left: 5px;
+  border-radius: 5px;
+  border: 1px solid #c7c7c7;
+}
+
+.registration-form .select {
+  height:25px;
+  padding-left: 5px;
+  border-radius: 5px;
+  border: 1px solid #c7c7c7;
+  color:#717274;
+  background-color:inherit;
+  clear: both;
+}
+
+.select > option{
+  border-radius: 5px;
+}
+
+.login-form {
+  width: 180px;
+  height: 230px;
+  padding: 10px;
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  position: absolute;
+  left: 45%;
+  top: 35%;
+  margin-top: -100px;
+  margin-left: -75px; 
+}
+
+.text {
+  margin: 7px;
+  height:25px;
+  padding-left: 5px;
+  border-radius: 5px;
+  border: 1px solid #c7c7c7;
+}
+
+.login-form .button {
+  width: 60px;
+  height: 17px;
+  padding: 0;
+  margin-left: 60px;
+  color: #679ef0;
+  margin-top: 10px;
+  font-size: 16px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 800;
+  border: none;
+  background-color: inherit;
+}
+
+.login-form .button:hover {
+  background-color: inherit;
+  cursor: pointer;
+  color:red;
+}
+
+.label {
+  margin-left: 7px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 300;
+}
+
+.caption {
+  margin-top: 10px;
+  margin-left: 50px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #679ef0;
+}
+
+.programs {
+  position: absolute;
+  left:50%;
+  margin-top:100px;
+  margin-left:-350px;
+}
+
+.programs tr {
+  width:100px;
+  height: 30px;
+}
+
+.programs .programId {
+  width: 50px;
+}
+
+.programName {
+  width: 300px;
+  height: 30px;
+}
+
+.programs .button {
+  width: 100px;
+  height: 35px;
+  border-radius: 20px;
+  text-decoration: none;
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+  color:white;
+  background-color: #679ef0;
+  border:none;
+  float: right;
+  font-size:13px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 800;
+  margin-bottom:20px;
+}
+
+.programs .button:hover {
+  background-color: rgb(0, 43, 184);
+  cursor: pointer;
+}
+
+.programs caption {
+  margin-left: -395px;
+  margin-bottom: -15px;
+  font-size: 20px;
+}
+
+.hidenId {
+  display: none;
+}
+
+.edit-form {
+  border: 1px solid black;
+  width:400px;
+  height:250px;
+  display: none;  
+}
+
+.displayBlock{
+  border: 1px solid grey;
+  border-radius: 5px;
+  width:230px;
+  height:220px;
+  display: block;
+  position: absolute;
+  left: 50%;
+  margin-left: -255px;
+  background-color: white;
+  z-index: 1;
+  text-align: center;
+}
+
+.displayBlock input{
+  margin: 10px;
+  clear: both;
+  width: 195px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid grey;
+}
+
+.displayBlock button {
+  margin-top: 30px;
+  width: 105px;
+}
+
+.hiddenBlock {
+  display: none;
+}
+
+.create-form {
+  border: 1px solid black;
+  width:350px;
+  height:150px;
+  display: none;
+  
+}
+
+.programsToAssign{
+  margin-left: 500px;
+  margin-top: -200px;
+  width:250px;
+  height: 250px;
+  border: 1px solid rgb(202, 202, 202);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: auto;
+  display: block;
+}
+
+ .button {
+  width: 100px;
+  height: 35px;
+  border-radius: 20px;
+  text-decoration: none;
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+  color:white;
+  background-color: #679ef0;
+  border:none;
+  font-size:10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 800;
+  margin-bottom:20px;
+}
+
+ .button:hover {
+  background-color: #0057da;
+  cursor: pointer;
+}
+
+
+/* .link{
+  display: inline-block;
+  width: 75 px;
+  height: 20 px;
+  list-style: none;
+} */
