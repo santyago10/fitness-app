@@ -4,12 +4,14 @@ import { user } from './user.store';
 
 import '../App.css';
 import { AssignedProgramItem } from '../models/assigned-program';
+import { list } from './program.store';
 
 const service: ApiServices = new ApiServices();
-let athleteId = 0;
+let athleteId: number;
 
 export const AssignedProgramList = types.model({
   assignedPrograms: types.array( AssignedProgramItem ),
+  programsWindow: types.optional( types.boolean, false )
 })
 .actions( self => ({
   async getMyPrograms ( id ) {
@@ -37,14 +39,8 @@ export const AssignedProgramList = types.model({
     }
   },
 
-  async createId( e, id ){
-    e.stopPropagation();
-    athleteId = id;
-    let element = document.getElementById( "programsToAssign" );
-    element.className = "programsToAssign";
-  },
-
   async assignProgram( e, programId ){
+    e.persist();
     e.stopPropagation();
 
     let data = {
@@ -52,6 +48,34 @@ export const AssignedProgramList = types.model({
       program_: programId
     }
     let result = await service.assignProgram( data );
+    debugger;
+
+    if( result.toString().includes( "Network Error" ) ){
+      alert( "Server error, try again later" );
+    }
+    else if( result.toString().includes( "401" )){
+      window.location.href = "/error";
+    }
+    else if( result.message ){
+      alert( "Unknow error, try again" );
+    }
+    else if( result.toString().includes( "This program" )){
+      alert( "This athlete is already assigned on this program" );
+    }
+    else{
+      alert( "Success" );
+      this.hideProgramsWindow( e );
+      athleteId = null;
+    }
+  }, 
+
+  async deleteMyProgram( e, id ){
+    debugger;
+    e.stopPropagation();
+    e.persist();
+
+    let result = await service.deleteAssignedProgram( id );
+    debugger;
 
     if( result.toString().includes( "Network Error" ) ){
       alert( "Server error, try again later" );
@@ -63,13 +87,42 @@ export const AssignedProgramList = types.model({
       alert( "Unknow error, try again" );
     }
     else{
-      alert( "Success" );
-      let element = document.getElementById( "programsToAssign" );
-      element.className = "hiddenBlock";
+      for( let i = 0; i < self.assignedPrograms.length; i++ ){
+        if(self.assignedPrograms[i].id === id)
+        {
+          self.assignedPrograms.splice( i, 1 );
+          break;
+        }
+      }
     }
   }
 })
 )
+.views( self => ({
+  showProgramsWindow( e, id ){
+    e.stopPropagation();
+    if( list.programs.length === 0){
+      alert( "You don't have programs yet");
+    }
+    else
+    {
+      athleteId = id;
+      console.log( athleteId );
+      
+      self.programsWindow = true;
+    }
+  },
+
+  hideProgramsWindow( e ){
+    e.persist();
+    e.stopPropagation();
+
+    self.programsWindow = false;
+    
+    athleteId = null;
+    console.log( athleteId );
+  }
+}))
 
 export const assignedProgramStore = AssignedProgramList.create({
 });

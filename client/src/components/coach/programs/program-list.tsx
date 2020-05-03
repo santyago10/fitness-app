@@ -1,18 +1,17 @@
 import { observer } from "mobx-react";
 import React from 'react';
-import '../../App.css';
-import { Program} from './program-item';
-import { list, model } from '../../stores/program.store';
+import '../../../App.css';
+import { list, model } from '../../../stores/program.store';
 import { EditForm } from './edit-form';
-import { Button, LogoutButton } from '../../shares/buttons';
+import { Button, LogoutButton } from '../../../shares/buttons';
 import { CreateForm} from './create';
-import { user } from "../../stores/user.store";
+import { user } from "../../../stores/user.store";
 import { Link } from 'react-router-dom';
 
 export const Programs = observer( props => (
     <div>
-      <EditForm list = {list} model = {model}/> 
-      <CreateForm list = {list} model = {model}/>
+      { list.editForm ? <EditForm list = {list} model = {model}/> : null }
+      { list.createForm ? <CreateForm list = {list} model = {model}/> : null }
       <table className = 'programs'>
       <caption>My Programs <Button title = "Create" onClick = { e => list.showCreateForm ( e )}/></caption>
       <thead>
@@ -22,7 +21,11 @@ export const Programs = observer( props => (
       </thead>
       <tbody>
           { props.list.programs.map( program => (
-          <Program list = { props.list}  programs = { program }/>
+          <tr key = { program.id }>
+          <td className = 'programId'>{ program.id}</td><td className = 'programName'>{ program.name}</td><td>{ program.duration} days</td>
+          <td><Button title = "Edit" onClick = { e => {list.showForm( e, program.id )}}/><span className = 'hidenId'>{ program.id}</span></td>
+          <td><Button title = "Delete" onClick = { e => {list.deleteProgram( e, program.id)}} /></td>
+       </tr>
         ))}
       </tbody>
       </table>

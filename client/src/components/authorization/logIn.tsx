@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React from 'react';
-import '../App.css';
-import { Button} from '../shares/buttons';
+import '../../App.css';
+import { Button} from '../../shares/buttons';
 
 export const Login = observer( props =>(
     <div className = 'login-form' id = 'login-form'>

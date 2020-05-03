@@ -6,19 +6,11 @@ import { Registration } from './registration';
 
 
 export class RegistrationComponent  extends React.Component{
-    // private result;
-    // shouldComponentUpdate(){
-    //     return true;
-    // }
-    // componentDidUpdate(){
-    //     this.result = user.isRegistrated;
-    //     debugger;
-    // }
     render(){
         if(user.isRegistrated)
         return <Redirect to = '/registrated'/>
         return <div>
-            <Link  to = '/login' className = 'link'>Login </Link>
+            <Link  to = '/' className = 'link'>Login </Link>
             <Registration user = {user} model = {model}/>
         </div>
     }

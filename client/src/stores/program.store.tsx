@@ -16,7 +16,8 @@ export const model = ProgramItem.create({
 
 export const ProgramList = types.model({
   programs: types.array( ProgramItem ),
-  isVisible: types.optional( types.boolean, false )
+  createForm: types.optional( types.boolean, false ),
+  editForm: types.optional( types.boolean, false)
 })
 .actions(self => ({
   async getPrograms () {
@@ -36,7 +37,7 @@ export const ProgramList = types.model({
     else{
       if( result === `Not found ${user.id}` )
       {
-        alert( "You don't have programs yet" );
+        return self.programs;
       }
       else{
         self.programs = result;
@@ -68,8 +69,7 @@ export const ProgramList = types.model({
       }
       else{
         self.programs.push( result );
-        let form = document.getElementById( "create-form" )
-        form.className = 'hiddenBlock';
+        this.hideCreateForm( e );
         model.setName( "" );
         model.setDuration( "0" );
       }
@@ -146,16 +146,16 @@ export const ProgramList = types.model({
         }
       }
     }
-  },
-
+  }
+}))
+.views( self => ({
   showForm( e, id ){
     e.stopPropagation();
     this.hideCreateForm( e );
 
     programId = id;
 
-    let form = document.getElementById("edit-form")
-    form.className = 'displayBlock';
+    self.editForm = true;
   },
 
   showCreateForm( e ){
@@ -163,23 +163,19 @@ export const ProgramList = types.model({
 
     this.hideForm( e );
 
-    let form = document.getElementById("create-form")
-    form.className = 'displayBlock';
+    self.createForm = true;
   },
 
   hideCreateForm ( e ){
     e.preventDefault();
-
-    let form = document.getElementById("create-form")
-    form.className = 'hiddenBlock';
+    self.createForm = false;
   },
-
 
   hideForm ( e ){
     e.preventDefault();
 
-    let form = document.getElementById("edit-form")
-    form.className = 'hiddenBlock';
+    self.editForm = false;
+    programId = null;
   }
 }))
 

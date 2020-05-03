@@ -2,11 +2,15 @@ import React from 'react';
 import { LogoutButton} from '../../shares/buttons';
 import { user } from "../../stores/user.store";
 import { NavLink, Link } from 'react-router-dom';
+import { list } from '../../stores/program.store';
+import { athleteStore } from '../../stores/athlete.store';
 
 export class CoachWindow extends React.Component {
-    componentWillMount(){
-        console.log(user.role);
+    constructor( props ){
+        super( props );
         user.isAuthenticate();
+        list.getPrograms();
+        athleteStore.getAthletes();
     }
     render(){
          if(user.role === 1)

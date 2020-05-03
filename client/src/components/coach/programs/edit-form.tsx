@@ -1,10 +1,10 @@
 import { observer } from "mobx-react";
 import React from 'react';
-import '../../App.css';
-import { Button} from '../../shares/buttons';
+import '../../../App.css';
+import { Button} from '../../../shares/buttons';
 
 export const EditForm = observer( props =>(
-    <div className = 'edit-form' id = 'edit-form'>
+    <div className = 'displayBlock' id = 'edit-form'>
          <form name = 'edit-program'>
           <p>Type new values</p>
          <input type = 'text'  value = { props.model.name } placeholder = 'Name' onChange = { e => props.model.setName( e.target.value )}/>

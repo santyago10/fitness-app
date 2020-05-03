@@ -36,7 +36,6 @@ export class ApiServices{
 
     public getAthletes = async () => {
         try{
-            debugger;
             const result = await axios.get(`${this.path}/athletes`, { withCredentials: true } );
             return result.data;
         }
@@ -102,6 +101,7 @@ export class ApiServices{
     public getAthletesPrograms = async ( id ) => {
         try{
             const result = await axios.get( `${this.path}/assigned/${id}`, { withCredentials: true } );
+            debugger;
             return result.data;
         }
         catch( err ){
@@ -122,10 +122,21 @@ export class ApiServices{
     public assignProgram = async ( body ) => {
         try{
             debugger;
-            const result = await axios.post( `${ this.path}/assigned`, body, { withCredentials: true } )
+            const result = await axios.post( `${ this.path }/assigned`, body, { withCredentials: true } )
             return result.data;
         }
         catch( err ){
+            return err;
+        }
+    }
+
+    public deleteAssignedProgram = async ( id ) => {
+        try{
+            const result = await axios.delete( `${ this.path }/assigned/${ id }`, { withCredentials: true } );
+            debugger;
+            return result.data
+        }
+        catch( err ){ 
             return err;
         }
     }
