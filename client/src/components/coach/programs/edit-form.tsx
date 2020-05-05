@@ -9,7 +9,7 @@ export const EditForm = observer( props =>(
           <p>Type new values</p>
          <input type = 'text'  value = { props.model.name } placeholder = 'Name' onChange = { e => props.model.setName( e.target.value )}/>
          <input type = 'number' value = { props.model.duration.toString() } min = "0" placeholder = 'Duration' onChange = { e => props.model.setDuration( e.target.value )} required/>
-         <Button title = "Send" onClick = { e => { props.list.editProgram(e, props.model.name, props.model.duration )}}/>
+         <Button title = "Edit" onClick = { e => { props.list.editProgram(e, props.model.name, props.model.duration )}}/>
          <Button title = "Cancel" onClick = { e => { props.list.hideForm(e)}}/>
      </form>
    </div>

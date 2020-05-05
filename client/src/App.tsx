@@ -1,6 +1,4 @@
 import * as React from 'react';
-import ProgramList  from './components/coach/programs/program-list';
-import  AthleteList  from './components/coach/athletes/athlete-list';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Switch, Route} from 'react-router';
 import { LoginComponent } from './components/authorization/login-component';
@@ -17,14 +15,11 @@ class App extends React.Component {
       <Router>
           <Switch>
               <Route exact path = '/'  component = {LoginComponent}/>
-              <Route exact path = '/coach' component = {CoachWindow}/>
+              <Route path = '/coach' component = {CoachWindow}/>
               <Route exact path = '/error' component = {Unauthorized}/>
               <Route exact path = '/registration' component = {RegistrationComponent}/>
               <Route exact path = '/athlete' component = {Athlete2}/>
-              <Route exact path = '/athletes' component = {AthleteList}/>
-              <Route exact path = '/programs' component = {ProgramList}/>
               <Route exact path = '/myprograms' component = { AssignedProgramList }/>
-              <Route exact path = '/programs' component = {ProgramList}/>
           </Switch>
       </Router>
     </div>

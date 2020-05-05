@@ -2,7 +2,6 @@ import { ApiServices } from '../services/api-services';
 import { ProgramItem } from '../models/programs';
 import { types, unprotect } from "mobx-state-tree";
 import { user } from './user.store';
-
 import '../App.css';
 
 const service: ApiServices = new ApiServices();
@@ -22,7 +21,7 @@ export const ProgramList = types.model({
 .actions(self => ({
   async getPrograms () {
     await user.isAuthenticate();
-    const result = await service.getAllPrograms( user.id );
+    let result = await service.getAllPrograms( user.id );
     
     if( result.toString().includes( "401" ) ){
       window.location.href = "/error";
@@ -39,8 +38,10 @@ export const ProgramList = types.model({
       {
         return self.programs;
       }
-      else{
-        self.programs = result;
+      else{ 
+        self.programs = ( function (arr) {
+            return arr.sort((a, b) => a.id > b.id ? 1 : -1);
+        })( result );
       }
     }
   },
@@ -48,6 +49,7 @@ export const ProgramList = types.model({
   async createProgram (e, programName, programDuration ) {
     e.stopPropagation();
     e.preventDefault();
+    debugger;
 
     if( programName === ""){
       alert( "Name required");
@@ -69,7 +71,7 @@ export const ProgramList = types.model({
       }
       else{
         self.programs.push( result );
-        this.hideCreateForm( e );
+        self.createForm = false;
         model.setName( "" );
         model.setDuration( "0" );
       }
@@ -135,13 +137,14 @@ export const ProgramList = types.model({
         alert( "Unknown error, try again" );
       }
     }
-    else
-    {
+    else{
       for( let i = 0; i < self.programs.length; i++ ){
         if(self.programs[i].id === id)
         {
           self.programs.splice( i, 1 );
-          this.hideForm( e );
+          self.editForm = false;
+          self.createForm =false;
+          console.log(self.programs.length)
           break;
         }
       }
@@ -164,6 +167,7 @@ export const ProgramList = types.model({
     this.hideForm( e );
 
     self.createForm = true;
+    console.log( self.createForm );
   },
 
   hideCreateForm ( e ){

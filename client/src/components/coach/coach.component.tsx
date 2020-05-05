@@ -1,9 +1,12 @@
 import React from 'react';
 import { LogoutButton} from '../../shares/buttons';
 import { user } from "../../stores/user.store";
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { list } from '../../stores/program.store';
 import { athleteStore } from '../../stores/athlete.store';
+import { Switch, Route } from 'react-router';
+import AthleteList from './athletes/athlete-list';
+import ProgramList from './programs/program-list';
 
 export class CoachWindow extends React.Component {
     constructor( props ){
@@ -19,11 +22,16 @@ export class CoachWindow extends React.Component {
         }
         else{
             return <div>
-                <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
-                <Link to = '/athletes' className = 'link'>Athletes</Link>
-                <Link to = '/programs' className = 'link'>Programs</Link>  
+                <div className = "top">
+                    <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
+                    <NavLink to = '/coach/athletes' className = 'link' activeclassname = "active">Athletes</NavLink>
+                    <NavLink to = '/coach/programs' className = 'link' activeclassname = "active">Programs</NavLink>  
+                </div>
+                <Switch>
+                    <Route path = '/coach/athletes' component = { AthleteList }></Route>
+                    <Route path = '/coach/programs' component = { ProgramList }/>
+                </Switch>
             </div>
-        }
-        
+        }     
     }
 }  

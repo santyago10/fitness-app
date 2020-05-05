@@ -44,11 +44,7 @@ passport.serializeUser(function ( user: any, done) {
   if(result)
     done(null, result);
  });
-
-
-
  
-
 class App {
   public app: express.Application;
   public port: number;

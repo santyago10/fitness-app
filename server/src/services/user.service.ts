@@ -28,21 +28,22 @@ class UserService {
             let result = await this.userRepository.find( { email: body.email } );
             if ( result[0] )
             return "Registrated";   
-            else{
-                console.log("body ", body );
+            else{                
                 await ( bcrypt
                 .genSalt( this.saltRounds )
-                .then(salt => {
-                  console.log(`Salt: ${salt}`);
+                .then( salt => {
+                  console.log(`Salt: ${ salt }`);
               
-                  return bcrypt.hash( body.password, salt);
+                  return bcrypt.hash( body.password, salt );
                 })
                 .then( async ( hash )=> {
-                  console.log(`Hash: ${hash}`);
+                  console.log(`Hash: ${ hash }`);
                   this.hashPassword = hash;
                 }))
-                .catch(err => console.error("Hashing error ", err.message));
+                .catch( err => console.error("Hashing error ", err.message ) );
+
                 body.password = this.hashPassword;
+
                 const userData: CreateUserDto = body;
                 const newUser = this.userRepository.create( userData );
                 await this.userRepository.save( newUser );

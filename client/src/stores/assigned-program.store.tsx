@@ -35,7 +35,9 @@ export const AssignedProgramList = types.model({
       return self.assignedPrograms;
     }
     else{
-      self.assignedPrograms = result;
+      self.assignedPrograms = ( function (arr) {
+        return arr.sort((a, b) => a.id > b.id ? 1 : -1);
+    })( result );;
     }
   },
 
@@ -64,18 +66,16 @@ export const AssignedProgramList = types.model({
     }
     else{
       alert( "Success" );
-      this.hideProgramsWindow( e );
+      self.programsWindow = false;
       athleteId = null;
     }
   }, 
 
   async deleteMyProgram( e, id ){
-    debugger;
     e.stopPropagation();
     e.persist();
 
     let result = await service.deleteAssignedProgram( id );
-    debugger;
 
     if( result.toString().includes( "Network Error" ) ){
       alert( "Server error, try again later" );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { user } from '../../stores/user.store';
 import { LogoutButton } from '../../shares/buttons';
-import './athlete.css';
+import '../../App.css';
 import AssignedProgramList from './assigned-programs-list';
 
 export class Athlete2 extends React.Component{
@@ -17,7 +17,9 @@ export class Athlete2 extends React.Component{
         }
         else{
             return <div>
-                <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
+                <div className = "top">
+                    <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
+                </div>
                 <AssignedProgramList/>
             </div>
         }
