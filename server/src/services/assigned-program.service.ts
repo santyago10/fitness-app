@@ -36,16 +36,6 @@ class AssignedProgramService{
       return err;
     }
   }
-  
-  //Get all assigned programs
-  public getAll = async () => {
-    // const program = await this.programRepository.find();
-    // return ( program );
-    const programs = await createQueryBuilder("program")
-    .innerJoinAndSelect("program.id", "photo")
-    .getOne();
-    return programs;
-  }
 
   //Get all assigned on athlete programs
   public getByAthleteId = async ( athleteId ) => {
@@ -69,7 +59,7 @@ class AssignedProgramService{
   //Delete assigned program
   public delete = async ( id ) => {
     try{
-      const deleteResponse = await this.programRepository.delete( id );
+      const deleteResponse = await this.programRepository.delete( { program_: id } );
       if ( deleteResponse.affected !== 0 ) {
         return( "Program " + id + " deleted succesfully" );
       } 

@@ -2,17 +2,19 @@ import React from 'react';
 import { LogoutButton} from '../../shares/buttons';
 import { user } from "../../stores/user.store";
 import { NavLink } from 'react-router-dom';
-import { list } from '../../stores/program.store';
+import { programsStore } from '../../stores/program.store';
 import { athleteStore } from '../../stores/athlete.store';
 import { Switch, Route } from 'react-router';
 import AthleteList from './athletes/athlete-list';
 import ProgramList from './programs/program-list';
+import { observer } from 'mobx-react';
 
+@observer
 export class CoachWindow extends React.Component {
     constructor( props ){
         super( props );
         user.isAuthenticate();
-        list.getPrograms();
+        programsStore.getPrograms();
         athleteStore.getAthletes();
     }
     render(){

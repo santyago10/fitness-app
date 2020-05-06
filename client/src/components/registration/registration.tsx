@@ -3,8 +3,6 @@ import React from 'react';
 import '../../App.css';
 import { Button } from '../../shares/buttons';
 
-
-
 export const Registration = observer( props => (
     <div className = 'registration-form' id = 'registration-form'>
       <h2 className = 'caption'>Register</h2>
@@ -20,4 +18,4 @@ export const Registration = observer( props => (
          <Button title = "Register" onClick = { e => { props.user.registration( e, props.model.name, props.model.lastname, props.model.email, props.model.role, props.model.password ) } }/>
      </form>
    </div>
-))
+));

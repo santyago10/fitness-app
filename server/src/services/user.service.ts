@@ -86,19 +86,19 @@ class UserService {
     
     //Get all athletes
     public getAthletes = async () => {
-        const role  = await this.roleRepository.findOne({id: 1});
+        const role  = await this.roleRepository.findOne( { id: 1 } );
         const users = await this.userRepository.find();
         let athlete;
-        const athletes = users.map(async(item) => {
+        const athletes = users.map( async( item ) => {
             const user: User = item;
-            athlete = await this.userRoleRepository.find({user_: user, role_: role});
-            if(athlete.length > 0){
+            athlete = await this.userRoleRepository.find( { user_: user, role_: role } );
+            if( athlete.length > 0 ){
                return item; 
             }
         });
-        const promiseAthletes = Promise.all(athletes);
+        const promiseAthletes = Promise.all( athletes );
         const filteredAthletes = (await promiseAthletes).filter(item => {
-            if(item !== undefined)
+            if( item !== undefined )
             return item;
         });
         return filteredAthletes;  

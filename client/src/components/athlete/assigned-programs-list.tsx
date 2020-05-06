@@ -5,8 +5,18 @@ import { user } from "../../stores/user.store";
 import '../../App.css';
 import { Button } from "../../shares/buttons";
 
-export const MyPrograms = observer( props => (
-    <div className = "myPrograms">
+@observer
+class AssignedProgramList extends React.Component{
+  constructor( props ){
+    super( props );
+    assignedProgramStore.getMyPrograms( user.id );
+  }
+  render(){
+    if(assignedProgramStore.assignedPrograms.length === 0){
+      return <h3 className = 'noPrograms'>Your programs will be here</h3>
+    }
+    else{
+      return <div className = "myPrograms">
       <table>
         <caption>My programs</caption>
         <thead>
@@ -15,25 +25,16 @@ export const MyPrograms = observer( props => (
           </tr>
         </thead>
         <tbody>
-           { props.store.assignedPrograms.map( program => (
+           { assignedProgramStore.assignedPrograms.map( program => (
             <tr key = { program.id }>
-              <td className = "programId">{ program.id }</td><td className = 'programName'> { program.name } </td><td>{ program.duration }</td><td><Button title = "Unsubscribe" onClick = { e => { assignedProgramStore.deleteMyProgram( e, program.id ) } } /></td>
+              <td className = "programId">{ program.id }</td><td className = 'programName'> { program.name } </td><td>{ program.duration } days</td><td><Button title = "Unsubscribe" onClick = { e => { assignedProgramStore.deleteMyProgram( e, program.id ) } } /></td>
             </tr>
           ))}
       </tbody>
       </table>
     </div>
-));
-
-class AssignedProgramList extends React.Component{
-  componentDidMount(){
-    assignedProgramStore.getMyPrograms( user.id );
-  }
-    render(){
-      return (
-        <MyPrograms store = {assignedProgramStore} />
-      )
     }
+  }
 }
 
 export default AssignedProgramList;

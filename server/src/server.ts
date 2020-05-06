@@ -11,13 +11,11 @@ import AssignedProgramRoute from './routes/assigned-program.route';
  
 (async () => {
   try {
-    await createConnection(config);
-  } catch (error) {
-    console.log('Error while connecting to the database', error);
+    await createConnection( config );
+  } catch ( error ) {
+    console.log( 'Error while connecting to the database', error );
     return error;
   }
-  const app = new App([new UserRoute, new ProgramRoute, new AssignedProgramRoute, new UserRoleRoute],
-    5000
-  );
+  const app = new App( [ new UserRoute, new ProgramRoute, new AssignedProgramRoute, new UserRoleRoute ], 5000 );
   app.listen();
 })();

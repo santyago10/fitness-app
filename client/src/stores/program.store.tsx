@@ -97,20 +97,14 @@ export const ProgramList = types.model({
         alert( "Server error, try again later" );
       }
       else if( result.message ){
-        if( result.message.includes( "UPDATE" )){
-          alert( "You can't update this program because it is assigned on athlete")
-        }
-        else{
-          alert( "Unknown error, try again")
-        }
+        alert( "Unknown error, try again")
       }
-
       else{
         for( let i = 0; i < self.programs.length; i++ ){
           if( self.programs[i].id === programId )
           {
             self.programs.splice( i, 1, result );
-            this.hideForm( e );
+            self.editForm = false;
             model.setName( "" );
             model.setDuration( "" );
             break;
@@ -183,8 +177,8 @@ export const ProgramList = types.model({
   }
 }))
 
-export const list = ProgramList.create( {} );
-unprotect( list );
+export const programsStore = ProgramList.create( {} );
+unprotect( programsStore );
 
 
 

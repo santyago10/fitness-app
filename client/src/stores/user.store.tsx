@@ -129,7 +129,7 @@ const AuthorizedUser = types.model({
                 let role = await service.setRole(roleData);
 
                 if( role ){
-                    alert(" Success");
+                    alert("Success");
                     window.location.href = '/';
                 }
                 else{

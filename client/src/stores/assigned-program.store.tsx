@@ -4,7 +4,7 @@ import { user } from './user.store';
 
 import '../App.css';
 import { AssignedProgramItem } from '../models/assigned-program';
-import { list } from './program.store';
+import { programsStore } from './program.store';
 
 const service: ApiServices = new ApiServices();
 let athleteId: number;
@@ -101,7 +101,7 @@ export const AssignedProgramList = types.model({
 .views( self => ({
   showProgramsWindow( e, id ){
     e.stopPropagation();
-    if( list.programs.length === 0){
+    if( programsStore.programs.length === 0){
       alert( "You don't have programs yet");
     }
     else

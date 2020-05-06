@@ -4,8 +4,10 @@ import { user } from '../../stores/user.store';
 import { LogoutButton } from '../../shares/buttons';
 import '../../App.css';
 import AssignedProgramList from './assigned-programs-list';
+import { observer } from 'mobx-react';
 
-export class Athlete2 extends React.Component{
+@observer
+export class Athlete extends React.Component{
     constructor( props ){
         super( props );
         user.isAuthenticate();
