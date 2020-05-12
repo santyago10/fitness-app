@@ -18,14 +18,16 @@ export const AthleteList = types.model({
     }
     else if( result.message){
       if( result.message.includes( "401" ) ){
-        alert( "Unknown error, try again" );
+        window.location.href = '/error';
       }
       else{
         alert( "Unknown error" );
       }
     }
     else{
-      self.athletes = result;
+      self.athletes = ( function (arr) {
+        return arr.sort((a, b) => a.id > b.id ? 1 : -1);
+    })( result );;
     } 
   }
 }))

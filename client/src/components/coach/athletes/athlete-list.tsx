@@ -1,47 +1,42 @@
 import { observer } from "mobx-react";
 import React from 'react';
-import { LogoutButton } from '../../../shares/buttons';
-import { Athlete } from './athlete-item';
+import { Button } from '../../../shares/buttons';
 import { athleteStore } from "../../../stores/athlete.store";
-import { user } from "../../../stores/user.store";
-import { Link } from 'react-router-dom';
 import Programs from "./programs";
-import { list } from "../../../stores/program.store";
 import '../../../App.css';
+import { assignedProgramStore } from "../../../stores/assigned-program.store";
 
-export const Athletes = observer( props => (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <td>ID</td><td>Name</td><td>LastName</td><td>Email</td>
-          </tr>
-        </thead>
-        <tbody>
-           {props.athleteStore.athletes.map( athlete => (
-             <Athlete athletes = { athlete } />
-      ))}
-      </tbody>
-      </table>
-    </div>
-  ));
-
+@observer
   class AthleteList extends React.Component{
-    componentDidMount(){
-      athleteStore.getAthletes();
-      list.getPrograms();
+  render(){
+    if( athleteStore.athletes.length === 0)
+    {
+      return  <h3 className = 'noPrograms'>No athletes registrated yet</h3>
     }
-    render(){
+    else
+    {    
       return <div>
-        <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
-        <Link to = '/programs' className = 'link'>Programs</Link>
-        <div className = "athleteWindow">
-        <Athletes athleteStore = { athleteStore } user = {user} />
-        <Programs list = { list }/>
-        </div>
-        </div>
-      
+      { assignedProgramStore.programsWindow ? <Programs/> : null }
+        <table className = "athletes">
+          <caption className = 'captionTable'>Athletes</caption>
+          <thead>
+            <tr>
+              <td>ID</td><td>Name</td><td>LastName</td><td>Email</td>
+            </tr>
+          </thead>
+          <tbody>
+            { athleteStore.athletes.map( athlete => (
+              <tr key = { athlete.id }>
+                <td>{ athlete.id }</td><td>{ athlete.name }</td><td>{ athlete.lastname }</td><td>{ athlete.email }</td>
+                <td><Button title = "Assign program" onClick = { e => { assignedProgramStore.showProgramsWindow( e, athlete.id ) }}/></td>
+            </tr>
+        ))}
+        </tbody>
+        </table>
+      </div>
     }
+    
+  }
 }
 
 export default AthleteList;

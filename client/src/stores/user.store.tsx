@@ -11,7 +11,7 @@ export const model = User.create({
     id:0,
     name: "",
     lastname: "",
-    email: "johns@mail.com",
+    email: "@mail.com",
     role:"Coach",
     password: "14250"
 });
@@ -23,7 +23,7 @@ const AuthorizedUser = types.model({
     isRegistrated: types.optional( types.boolean, false)
 })
 .actions(self => ({
-    async sendUser ( e, userEmail, userPassword ) {
+    async login ( e, userEmail, userPassword ) {
         e.preventDefault();
         
         const data = {
@@ -52,12 +52,6 @@ const AuthorizedUser = types.model({
             else{
                 window.location.href = '/coach';
             }
-
-            self.id = result.id;
-            self.email = result.email;
-            self.role = role.role_id;  
-            model.setEmail("");
-            model.setPassword(""); 
         }     
     },
 
@@ -80,49 +74,63 @@ const AuthorizedUser = types.model({
 
     async registration ( e, userName, userLastname, userEmail, userRole, userPassword ) {
         e.preventDefault();
+
         let roleNumber;
-        if(userRole === "Coach"){
-            roleNumber = 2;
+        let check = /@/;
+
+        if ( !check.test( userEmail ) ){
+            alert( "Uncorrect email adress" )
+        }
+        else if( userName.length === 0 ){
+            alert( "Name required" )
+        }
+        else if( userLastname.length === 0){
+            alert( "Lastname required" )
+        }
+        else if( userPassword.length < 3){
+            alert( "Password is very weak" )
         }
         else
-        roleNumber = 1;
-
-        const data = {
-            name: userName,
-            lastname: userLastname,
-            email: userEmail,
-            password: userPassword
-        }
-
-        let result = await service.registration( data );
-        
-        if( result.toString().includes( "Network Error" ) )
         {
-            alert( "Server error, try again later" );
-        }
-        else if( result.message){
-            alert( "Unknown error" )
-        }
-        else if( result === "Registrated")
-        {
-            window.location.href = '/registrated';
-        }
-        else{
-            const roleData = {
-                user_: result.id,
-                role_: roleNumber
+            roleNumber = userRole === "Coach" ? 2 : 1;
+
+            const data = {
+                name: userName,
+                lastname: userLastname,
+                email: userEmail,
+                password: userPassword
             }
-                
-            let role = await service.setRole(roleData);
 
-            if( role ){
-                alert(" Success");
-                window.location.href = '/login';
+            let result = await service.registration( data );
+            
+            if( result.toString().includes( "Network Error" ) )
+            {
+                alert( "Server error, try again later" );
+            }
+            else if( result.message){
+                alert( "Unknown error" )
+            }
+            else if( result === "Registrated")
+            {
+                alert( "This email is already registrated" );
             }
             else{
-                alert( "Error" );
-            }
-        }  
+                const roleData = {
+                    user_: result.id,
+                    role_: roleNumber
+                }
+                    
+                let role = await service.setRole(roleData);
+
+                if( role ){
+                    alert("Success");
+                    window.location.href = '/';
+                }
+                else{
+                    alert( "Error" );
+                }
+            }  
+        }
     },
 
     async logout (e) {
@@ -135,12 +143,9 @@ const AuthorizedUser = types.model({
             alert( "Server error, try again later" );
         }
     }
-
 }));
 
-export const user = AuthorizedUser.create({
-
-});
+export const user = AuthorizedUser.create({});
 
 unprotect(user);
 

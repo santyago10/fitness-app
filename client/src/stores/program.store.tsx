@@ -2,7 +2,6 @@ import { ApiServices } from '../services/api-services';
 import { ProgramItem } from '../models/programs';
 import { types, unprotect } from "mobx-state-tree";
 import { user } from './user.store';
-
 import '../App.css';
 
 const service: ApiServices = new ApiServices();
@@ -16,18 +15,17 @@ export const model = ProgramItem.create({
 
 export const ProgramList = types.model({
   programs: types.array( ProgramItem ),
-  isVisible: types.optional( types.boolean, false )
+  createForm: types.optional( types.boolean, false ),
+  editForm: types.optional( types.boolean, false)
 })
 .actions(self => ({
   async getPrograms () {
-    await user.isAuthenticate();
-    const result = await service.getAllPrograms( user.id );
+    let result = await service.getAllPrograms( user.id );
     
     if( result.toString().includes( "401" ) ){
       window.location.href = "/error";
     }
     else if( result.toString().includes( "Network Error" ) ){
-      console.log( result );
       alert( "Server error, try again later" );
     }
     else if( result.message ){
@@ -36,17 +34,19 @@ export const ProgramList = types.model({
     else{
       if( result === `Not found ${user.id}` )
       {
-        alert( "You don't have programs yet" );
+        return self.programs;
       }
-      else{
-        self.programs = result;
+      else{ 
+        self.programs = ( function (arr) {
+            return arr.sort((a, b) => a.id > b.id ? 1 : -1);
+        })( result );
       }
     }
   },
 
   async createProgram (e, programName, programDuration ) {
-    e.stopPropagation();
     e.preventDefault();
+    e.stopPropagation();
 
     if( programName === ""){
       alert( "Name required");
@@ -55,7 +55,7 @@ export const ProgramList = types.model({
       const body = {
         name: programName,
         duration: programDuration,
-        coach_:user.id
+        coach_: user.id
       }
 
       const result = await service.createProgram( body );
@@ -68,8 +68,7 @@ export const ProgramList = types.model({
       }
       else{
         self.programs.push( result );
-        let form = document.getElementById( "create-form" )
-        form.className = 'hiddenBlock';
+        self.createForm = false;
         model.setName( "" );
         model.setDuration( "0" );
       }
@@ -95,20 +94,14 @@ export const ProgramList = types.model({
         alert( "Server error, try again later" );
       }
       else if( result.message ){
-        if( result.message.includes( "UPDATE" )){
-          alert( "You can't update this program because it is assigned on athlete")
-        }
-        else{
-          alert( "Unknown error, try again")
-        }
+        alert( "Unknown error, try again")
       }
-
       else{
         for( let i = 0; i < self.programs.length; i++ ){
           if( self.programs[i].id === programId )
           {
             self.programs.splice( i, 1, result );
-            this.hideForm( e );
+            self.editForm = false;
             model.setName( "" );
             model.setDuration( "" );
             break;
@@ -135,27 +128,27 @@ export const ProgramList = types.model({
         alert( "Unknown error, try again" );
       }
     }
-    else
-    {
+    else{
       for( let i = 0; i < self.programs.length; i++ ){
         if(self.programs[i].id === id)
         {
           self.programs.splice( i, 1 );
-          this.hideForm( e );
+          self.editForm = false;
+          self.createForm = false;
           break;
         }
       }
     }
-  },
-
+  }
+}))
+.views( self => ({
   showForm( e, id ){
     e.stopPropagation();
     this.hideCreateForm( e );
 
     programId = id;
 
-    let form = document.getElementById("edit-form")
-    form.className = 'displayBlock';
+    self.editForm = true;
   },
 
   showCreateForm( e ){
@@ -163,28 +156,24 @@ export const ProgramList = types.model({
 
     this.hideForm( e );
 
-    let form = document.getElementById("create-form")
-    form.className = 'displayBlock';
+    self.createForm = true;
   },
 
   hideCreateForm ( e ){
     e.preventDefault();
-
-    let form = document.getElementById("create-form")
-    form.className = 'hiddenBlock';
+    self.createForm = false;
   },
-
 
   hideForm ( e ){
     e.preventDefault();
 
-    let form = document.getElementById("edit-form")
-    form.className = 'hiddenBlock';
+    self.editForm = false;
+    programId = null;
   }
 }))
 
-export const list = ProgramList.create( {} );
-unprotect( list );
+export const programsStore = ProgramList.create( {} );
+unprotect( programsStore );
 
 
 

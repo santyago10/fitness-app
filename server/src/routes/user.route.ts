@@ -37,9 +37,9 @@ class UserRoute implements Route {
     );
 
     this.router.post('/login',
-      passport.authenticate( 'local'),
+      passport.authenticate( 'local' ),
        function( req, res ) {
-        res.send(req.body);
+        res.send( req.body );
       }
     );
 

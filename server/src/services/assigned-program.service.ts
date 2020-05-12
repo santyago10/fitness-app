@@ -1,36 +1,40 @@
 import * as express from 'express';
-import { getRepository } from 'typeorm';
+import { getRepository, createQueryBuilder } from 'typeorm';
 import AssignedPrograms from '../models/assigned-program.entity';
 import CreateAssignedProgramDto from '../dto/assigned-program.dto';
 import User from '../models/user.entity';
+import Program from '../models/program.entity';
 
 class AssignedProgramService{
   
   private programRepository;
   private athleteRepository;
+  private programs;
 
   constructor(){
     this.programRepository = getRepository( AssignedPrograms );
+    this.programs = getRepository( Program );
     this.athleteRepository = getRepository( User );
   }
   
   //Assign program to athlete
   public create = async ( body ) => {
     try{
-      const programData: CreateAssignedProgramDto = body;
-      const newProgram = this.programRepository.create( programData );
-      await this.programRepository.save( newProgram );
-      return( newProgram );
+      let exist = await this.programRepository.findOne( { athlete_: body.athlete_, program_: body.program_ } );
+      if( exist ){
+        return "This program already assigned on this athlete";
+      }
+      else
+      {
+        const programData: CreateAssignedProgramDto = body;
+        const newProgram = this.programRepository.create( programData );
+        await this.programRepository.save( newProgram );
+        return( newProgram );
+      }
     }
     catch( err ){
       return err;
     }
-  }
-  
-  //Get all assigned programs
-  public getAll = async () => {
-    const program = await this.programRepository.find();
-    return ( program );
   }
 
   //Get all assigned on athlete programs
@@ -38,8 +42,10 @@ class AssignedProgramService{
     try{
       const athlete = await this.athleteRepository.findOne( { id: JSON.parse( athleteId ) } );
       const program = await this.programRepository.query( `SELECT * FROM assigned_programs WHERE athlete_id = ${ athlete.id }` );
-      if ( program.length !== 0 ) {
-        return ( program );
+      const programsInfo = await this.programs.findByIds( program.map( item => { return item.program_id } ) );
+
+      if ( programsInfo.length !== 0 ) {
+        return ( programsInfo );
       } 
       else {
         return( "Not found " + athleteId );
@@ -53,7 +59,7 @@ class AssignedProgramService{
   //Delete assigned program
   public delete = async ( id ) => {
     try{
-      const deleteResponse = await this.programRepository.delete( id );
+      const deleteResponse = await this.programRepository.delete( { program_: id } );
       if ( deleteResponse.affected !== 0 ) {
         return( "Program " + id + " deleted succesfully" );
       } 

@@ -18,7 +18,6 @@ class AssignedProgramRoute implements Route {
  
   private initializeRoutes() {
     this.router.post(this.path, authenticationMiddleware(), validationMiddleware(CreateAssignedDto), this.controller.create);
-    this.router.get(this.path, authenticationMiddleware(), this.controller.getAll);
     this.router.get(`${this.path}/:id`, authenticationMiddleware(), this.controller.getByAthleteId);
     this.router.delete(`${this.path}/:id`, authenticationMiddleware(), this.controller.delete);
   }

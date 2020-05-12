@@ -8,7 +8,6 @@ export const ProgramItem = types.model({
 .actions( self =>({
     setName(newName){
         self.name = newName;
-        console.log(self.name);
     },
     
     setDuration( newDuration ){
@@ -18,7 +17,6 @@ export const ProgramItem = types.model({
         }
         else{
             self.duration = Number.parseInt( newDuration );
-            console.log(self.duration);
         } 
     }  
 }))

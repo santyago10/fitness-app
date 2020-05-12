@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { user } from '../../stores/user.store';
 import { LogoutButton } from '../../shares/buttons';
-import './athlete.css';
+import '../../App.css';
 import AssignedProgramList from './assigned-programs-list';
+import { observer } from 'mobx-react';
 
-export class Athlete2 extends React.Component{
+@observer
+export class Athlete extends React.Component{
     constructor( props ){
         super( props );
         user.isAuthenticate();
@@ -17,7 +19,10 @@ export class Athlete2 extends React.Component{
         }
         else{
             return <div>
-                <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
+                <div className = "top">
+                    <p className = "email">{ user.email }</p>
+                    <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
+                </div>
                 <AssignedProgramList/>
             </div>
         }

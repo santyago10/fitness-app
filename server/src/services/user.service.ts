@@ -4,7 +4,6 @@ import CreateUserDto from '../dto/user.dto';
 import User from '../models/user.entity';
 import Role from '../models/role.entity';
 import UserRole from '../models/user-role.entity';
-import passport from 'passport';
 import bcrypt from 'bcrypt';
 
 class UserService {
@@ -12,7 +11,6 @@ class UserService {
     private userRepository;
     private roleRepository;
     private userRoleRepository;
-    private saltRounds;
     private hashPassword;
 
 
@@ -20,7 +18,6 @@ class UserService {
         this.userRepository = getRepository( User );
         this.roleRepository = getRepository( Role );
         this.userRoleRepository = getRepository( UserRole );
-        this.saltRounds = 10;
     }
 
     public registration = async ( body ) => {
@@ -28,21 +25,22 @@ class UserService {
             let result = await this.userRepository.find( { email: body.email } );
             if ( result[0] )
             return "Registrated";   
-            else{
-                console.log("body ", body );
+            else{                
                 await ( bcrypt
-                .genSalt( this.saltRounds )
-                .then(salt => {
-                  console.log(`Salt: ${salt}`);
+                .genSalt( 12 )
+                .then( salt => {
+                  console.log(`Salt: ${ salt }`);
               
-                  return bcrypt.hash( body.password, salt);
+                  return bcrypt.hash( body.password, salt );
                 })
-                .then( async ( hash )=> {
-                  console.log(`Hash: ${hash}`);
+                .then( async ( hash ) => {
+                  console.log(`Hash: ${ hash }`);
                   this.hashPassword = hash;
                 }))
-                .catch(err => console.error("Hashing error ", err.message));
+                .catch( err => console.error("Hashing error ", err.message ) );
+
                 body.password = this.hashPassword;
+
                 const userData: CreateUserDto = body;
                 const newUser = this.userRepository.create( userData );
                 await this.userRepository.save( newUser );
@@ -85,19 +83,19 @@ class UserService {
     
     //Get all athletes
     public getAthletes = async () => {
-        const role  = await this.roleRepository.findOne({id: 1});
+        const role  = await this.roleRepository.findOne( { id: 1 } );
         const users = await this.userRepository.find();
         let athlete;
-        const athletes = users.map(async(item) => {
+        const athletes = users.map( async( item ) => {
             const user: User = item;
-            athlete = await this.userRoleRepository.find({user_: user, role_: role});
-            if(athlete.length > 0){
+            athlete = await this.userRoleRepository.findOne( { user_: user, role_: role } );
+            if( athlete ){
                return item; 
             }
         });
-        const promiseAthletes = Promise.all(athletes);
+        const promiseAthletes = Promise.all( athletes );
         const filteredAthletes = (await promiseAthletes).filter(item => {
-            if(item !== undefined)
+            if( item !== undefined )
             return item;
         });
         return filteredAthletes;  
