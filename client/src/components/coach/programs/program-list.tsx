@@ -11,7 +11,7 @@ class ProgramList extends React.Component{
   render(){
     if( programsStore.programs.length === 0 ){
      return  <div>
-        { programsStore.createForm ? <CreateForm programsStore = {programsStore} model = {model}/> : null }
+        { programsStore.createForm ? <CreateForm list = {programsStore} model = {model}/> : null }
         <h3 className = 'noPrograms'>Your programs will be here <Button title = "Create" onClick = { e => programsStore.showCreateForm ( e )}/></h3>
      </div>
     }

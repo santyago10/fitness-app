@@ -63,6 +63,7 @@ const AuthorizedUser = types.model({
 
     async isAuthenticate () {
         let result = await service.isAuthorized();
+        debugger;
 
         if( result.toString().includes( "401" )){
             window.location.href = '/error';

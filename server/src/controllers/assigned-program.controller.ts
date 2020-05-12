@@ -11,11 +11,6 @@ class AssignedProgramController {
     response.send(newProgram);
   }
 
-  public getAll = async (request: express.Request, response: express.Response) => {
-    const program = await this.service.getAll();
-    response.send(program);
-  }
-
   public getByAthleteId = async (request: express.Request, response: express.Response) => {
     const program = await this.service.getByAthleteId(request.params.id);
     response.send(program);

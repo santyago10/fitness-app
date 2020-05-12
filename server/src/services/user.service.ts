@@ -20,7 +20,6 @@ class UserService {
         this.userRepository = getRepository( User );
         this.roleRepository = getRepository( Role );
         this.userRoleRepository = getRepository( UserRole );
-        this.saltRounds = 10;
     }
 
     public registration = async ( body ) => {
@@ -30,13 +29,13 @@ class UserService {
             return "Registrated";   
             else{                
                 await ( bcrypt
-                .genSalt( this.saltRounds )
+                .genSalt( 12 )
                 .then( salt => {
                   console.log(`Salt: ${ salt }`);
               
                   return bcrypt.hash( body.password, salt );
                 })
-                .then( async ( hash )=> {
+                .then( async ( hash ) => {
                   console.log(`Hash: ${ hash }`);
                   this.hashPassword = hash;
                 }))
@@ -91,8 +90,8 @@ class UserService {
         let athlete;
         const athletes = users.map( async( item ) => {
             const user: User = item;
-            athlete = await this.userRoleRepository.find( { user_: user, role_: role } );
-            if( athlete.length > 0 ){
+            athlete = await this.userRoleRepository.findOne( { user_: user, role_: role } );
+            if( athlete ){
                return item; 
             }
         });

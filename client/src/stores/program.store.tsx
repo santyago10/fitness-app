@@ -22,6 +22,7 @@ export const ProgramList = types.model({
   async getPrograms () {
     await user.isAuthenticate();
     let result = await service.getAllPrograms( user.id );
+    debugger;
     
     if( result.toString().includes( "401" ) ){
       window.location.href = "/error";
@@ -47,9 +48,8 @@ export const ProgramList = types.model({
   },
 
   async createProgram (e, programName, programDuration ) {
-    e.stopPropagation();
     e.preventDefault();
-    debugger;
+    e.stopPropagation();
 
     if( programName === ""){
       alert( "Name required");
@@ -58,7 +58,7 @@ export const ProgramList = types.model({
       const body = {
         name: programName,
         duration: programDuration,
-        coach_:user.id
+        coach_: user.id
       }
 
       const result = await service.createProgram( body );
@@ -137,7 +137,7 @@ export const ProgramList = types.model({
         {
           self.programs.splice( i, 1 );
           self.editForm = false;
-          self.createForm =false;
+          self.createForm = false;
           console.log(self.programs.length)
           break;
         }

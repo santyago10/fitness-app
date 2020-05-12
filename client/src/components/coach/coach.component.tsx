@@ -11,9 +11,7 @@ import { observer } from 'mobx-react';
 
 @observer
 export class CoachWindow extends React.Component {
-    constructor( props ){
-        super( props );
-        user.isAuthenticate();
+    componentDidMount(){
         programsStore.getPrograms();
         athleteStore.getAthletes();
     }
@@ -31,7 +29,7 @@ export class CoachWindow extends React.Component {
                 </div>
                 <Switch>
                     <Route path = '/coach/athletes' component = { AthleteList }></Route>
-                    <Route path = '/coach/programs' component = { ProgramList }/>
+                    <Route exact path = '/coach/programs' component = { ProgramList }/>
                 </Switch>
             </div>
         }     

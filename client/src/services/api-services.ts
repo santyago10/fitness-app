@@ -101,7 +101,6 @@ export class ApiServices{
     public getAthletesPrograms = async ( id ) => {
         try{
             const result = await axios.get( `${this.path}/assigned/${id}`, { withCredentials: true } );
-            debugger;
             return result.data;
         }
         catch( err ){
@@ -111,7 +110,9 @@ export class ApiServices{
 
     public createProgram = async ( body ) => {
         try{
+            debugger;
             const result = await axios.post( `${this.path}/programs`, body, { withCredentials: true } );
+            debugger;
             return result.data;
         }
         catch( err ){

@@ -6,7 +6,6 @@ import '../../../App.css';
 
 const Programs = observer( props => (
     <div id = "programsToAssign" className = "programsToAssign">
-        
         <table>
             <caption>Choose program to assign <Button title = "Cancel" onClick ={ e => assignedProgramStore.hideProgramsWindow( e ) }/></caption>
         <tbody>
@@ -19,6 +18,5 @@ const Programs = observer( props => (
         </table>
     </div>
 ))
-
 
 export default Programs;
