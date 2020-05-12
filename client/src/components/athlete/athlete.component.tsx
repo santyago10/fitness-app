@@ -20,6 +20,7 @@ export class Athlete extends React.Component{
         else{
             return <div>
                 <div className = "top">
+                    <p className = "email">{ user.email }</p>
                     <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
                 </div>
                 <AssignedProgramList/>

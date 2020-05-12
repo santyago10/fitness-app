@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React from 'react';
 import '../../../App.css';
-import { programsStore, model } from '../../../stores/program.store';
+import { programsStore } from '../../../stores/program.store';
 import { EditForm } from './edit-form';
 import { Button } from '../../../shares/buttons';
 import { CreateForm} from './create';
@@ -11,15 +11,15 @@ class ProgramList extends React.Component{
   render(){
     if( programsStore.programs.length === 0 ){
      return  <div>
-        { programsStore.createForm ? <CreateForm list = {programsStore} model = {model}/> : null }
+        { programsStore.createForm ? <CreateForm/> : null }
         <h3 className = 'noPrograms'>Your programs will be here <Button title = "Create" onClick = { e => programsStore.showCreateForm ( e )}/></h3>
      </div>
     }
     else{
       return <div>
         <Button title = "Create" onClick = { e => programsStore.showCreateForm ( e )}/>
-        { programsStore.editForm ? <EditForm list = { programsStore } model = { model }/> : null }
-        { programsStore.createForm ? <CreateForm list = { programsStore } model = { model }/> : null }
+        { programsStore.editForm ? <EditForm/> : null }
+        { programsStore.createForm ? <CreateForm/> : null }
         <table className = 'programs'>
         <caption>My Programs</caption>
         <thead>

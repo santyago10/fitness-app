@@ -11,9 +11,17 @@ import { observer } from 'mobx-react';
 
 @observer
 export class CoachWindow extends React.Component {
-    componentDidMount(){
-        programsStore.getPrograms();
-        athleteStore.getAthletes();
+    constructor( props ){
+        super( props );
+        new Promise( (resolve, reject) =>{
+            resolve( user.isAuthenticate() );
+        } )
+        .then( result => {
+            programsStore.getPrograms();
+            athleteStore.getAthletes();
+        }, error => {
+            alert( error );
+        })
     }
     render(){
          if(user.role === 1)
@@ -23,6 +31,7 @@ export class CoachWindow extends React.Component {
         else{
             return <div>
                 <div className = "top">
+                    <p className = "email">{ user.email }</p>
                     <LogoutButton title = 'Logout' onClick = {e => user.logout(e)}/>
                     <NavLink to = '/coach/athletes' className = 'link' activeclassname = "active">Athletes</NavLink>
                     <NavLink to = '/coach/programs' className = 'link' activeclassname = "active">Programs</NavLink>  

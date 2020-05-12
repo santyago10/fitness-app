@@ -4,7 +4,6 @@ import CreateUserDto from '../dto/user.dto';
 import User from '../models/user.entity';
 import Role from '../models/role.entity';
 import UserRole from '../models/user-role.entity';
-import passport from 'passport';
 import bcrypt from 'bcrypt';
 
 class UserService {
@@ -12,7 +11,6 @@ class UserService {
     private userRepository;
     private roleRepository;
     private userRoleRepository;
-    private saltRounds;
     private hashPassword;
 
 

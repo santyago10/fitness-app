@@ -11,7 +11,7 @@ export const model = User.create({
     id:0,
     name: "",
     lastname: "",
-    email: "johns@mail.com",
+    email: "@mail.com",
     role:"Coach",
     password: "14250"
 });
@@ -23,7 +23,7 @@ const AuthorizedUser = types.model({
     isRegistrated: types.optional( types.boolean, false)
 })
 .actions(self => ({
-    async sendUser ( e, userEmail, userPassword ) {
+    async login ( e, userEmail, userPassword ) {
         e.preventDefault();
         
         const data = {
@@ -52,18 +52,11 @@ const AuthorizedUser = types.model({
             else{
                 window.location.href = '/coach';
             }
-
-            self.id = result.id;
-            self.email = result.email;
-            self.role = role.role_id;  
-            model.setEmail("");
-            model.setPassword(""); 
         }     
     },
 
     async isAuthenticate () {
         let result = await service.isAuthorized();
-        debugger;
 
         if( result.toString().includes( "401" )){
             window.location.href = '/error';
@@ -150,12 +143,9 @@ const AuthorizedUser = types.model({
             alert( "Server error, try again later" );
         }
     }
-
 }));
 
-export const user = AuthorizedUser.create({
-
-});
+export const user = AuthorizedUser.create({});
 
 unprotect(user);
 

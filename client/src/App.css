@@ -88,7 +88,7 @@
   text-align: center;
   color:white;
   background-color: #ff0a60;
-  border:none;
+  border: none;
   float: right;
   font-size:16px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -309,6 +309,13 @@ div > .button {
   left:50%;
   top:70px;
   margin-left: -300px;
+}
+
+.email{
+  position: fixed;
+  font-size: 18px;
+  top: -8px;
+  right: 120px;
 }
 
 .myPrograms {

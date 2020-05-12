@@ -20,15 +20,12 @@ export const ProgramList = types.model({
 })
 .actions(self => ({
   async getPrograms () {
-    await user.isAuthenticate();
     let result = await service.getAllPrograms( user.id );
-    debugger;
     
     if( result.toString().includes( "401" ) ){
       window.location.href = "/error";
     }
     else if( result.toString().includes( "Network Error" ) ){
-      console.log( result );
       alert( "Server error, try again later" );
     }
     else if( result.message ){
@@ -138,7 +135,6 @@ export const ProgramList = types.model({
           self.programs.splice( i, 1 );
           self.editForm = false;
           self.createForm = false;
-          console.log(self.programs.length)
           break;
         }
       }
@@ -161,7 +157,6 @@ export const ProgramList = types.model({
     this.hideForm( e );
 
     self.createForm = true;
-    console.log( self.createForm );
   },
 
   hideCreateForm ( e ){

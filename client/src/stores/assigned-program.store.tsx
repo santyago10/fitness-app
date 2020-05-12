@@ -1,7 +1,6 @@
 import { ApiServices } from '../services/api-services';
 import { types, unprotect } from "mobx-state-tree";
 import { user } from './user.store';
-
 import '../App.css';
 import { AssignedProgramItem } from '../models/assigned-program';
 import { programsStore } from './program.store';
@@ -30,7 +29,7 @@ export const AssignedProgramList = types.model({
         alert( "Unknown error, try again" );
       }
     }
-    else if( result === `Not found ${user.id}`)
+    else if( result === `Not found ${ user.id }`)
     {
       return self.assignedPrograms;
     }
@@ -50,7 +49,6 @@ export const AssignedProgramList = types.model({
       program_: programId
     }
     let result = await service.assignProgram( data );
-    debugger;
 
     if( result.toString().includes( "Network Error" ) ){
       alert( "Server error, try again later" );
@@ -107,7 +105,6 @@ export const AssignedProgramList = types.model({
     else
     {
       athleteId = id;
-      console.log( athleteId );
       
       self.programsWindow = true;
     }
@@ -120,11 +117,9 @@ export const AssignedProgramList = types.model({
     self.programsWindow = false;
     
     athleteId = null;
-    console.log( athleteId );
   }
 }))
 
-export const assignedProgramStore = AssignedProgramList.create({
-});
+export const assignedProgramStore = AssignedProgramList.create({});
 
 unprotect(assignedProgramStore);
