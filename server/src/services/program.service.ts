@@ -14,7 +14,6 @@ class ProgramService{
     this.coachRepository = getRepository(User);
   }
 
-  
   //Create programm
   public create = async ( body ) => {
     try{

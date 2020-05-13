@@ -5,6 +5,7 @@ import User from '../models/user.entity';
 import Role from '../models/role.entity';
 import UserRole from '../models/user-role.entity';
 import bcrypt from 'bcrypt';
+import passport from 'passport';
 
 class UserService {
     
@@ -52,7 +53,6 @@ class UserService {
         }
     }
   
-    
     public create = async ( body ) => {
         try{
             const userData: CreateUserDto = body;
@@ -99,6 +99,26 @@ class UserService {
             return item;
         });
         return filteredAthletes;  
+    }
+
+    public login = async ( body ) => {
+        return body;
+    }
+
+    public isAuthenticated = async ( req ) => {
+        if( req.isAuthenticated() )
+        {
+            return req.user ;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public logout = async ( req ) => {
+        req.logout();
+        return 'Logged out';
     }
 }
 

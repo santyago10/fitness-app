@@ -4,10 +4,10 @@ import UserService from '../services/user.service';
 class UserController {
   public service: UserService = new UserService();
 
-  // public login = async (request: express.Request, response: express.Response, next: express.NextFunction) => {
-  //   let result = await this.service.login(request.body, next);
-  //   response.send(result);
-  // }
+  public login = async (request: express.Request, response: express.Response) => {
+    let result = await this.service.login( request.body );
+    response.send( result );
+  }
   
   public registration = async ( request: express.Request, response: express.Response ) => {
     let result = await this.service.registration(request.body);
@@ -32,6 +32,16 @@ class UserController {
   public getAthletes = async (request: express.Request, response:express.Response) => {
     const athletes = await this.service.getAthletes();
     response.send(athletes);
+  }
+
+  public isAuthenticated = async ( request: express.Request, response:express.Response ) => {
+    const result = await this.service.isAuthenticated( request );
+    result ? response.send( result ) : response.status( 401 ).send();
+  }
+
+  public logout = async ( request: express.Request, response: express.Response ) => {
+    const result = await this.service.logout( request );
+    response.send( result );
   }
 }
 
