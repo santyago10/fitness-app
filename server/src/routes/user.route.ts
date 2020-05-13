@@ -19,28 +19,13 @@ class UserRoute implements Route {
  
   private initializeRoutes() {
 
-    this.router.get('/logout', function(req, res){
-      req.logout();
-      res.send('Logged out');
-      });
+    this.router.get( '/logout', this.controller.logout );
 
-    this.router.get('/login', function ( req, res ) {
-     if(req.isAuthenticated())
-     {
-      res.send( req.user );
-     }
-     else
-     {
-      res.status( 401 ).send();
-     }
-    }
-    );
+    this.router.get( '/login', this.controller.isAuthenticated );
 
-    this.router.post('/login',
+    this.router.post( '/login',
       passport.authenticate( 'local' ),
-       function( req, res ) {
-        res.send( req.body );
-      }
+      this.controller.login
     );
 
     this.router.post( '/registration', validationMiddleware( CreateUserDto ), this.controller.registration );

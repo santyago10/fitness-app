@@ -11,9 +11,9 @@ export const model = User.create({
     id:0,
     name: "",
     lastname: "",
-    email: "@mail.com",
-    role:"Coach",
-    password: "14250"
+    email: "",
+    role: "",
+    password: ""
 });
 
 const AuthorizedUser = types.model({

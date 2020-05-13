@@ -8,10 +8,6 @@ import { observer } from 'mobx-react';
 
 @observer
 export class Athlete extends React.Component{
-    constructor( props ){
-        super( props );
-        user.isAuthenticate();
-    }
     render(){
         if(user.role === 2)
         {    
