@@ -57,14 +57,14 @@ class AssignedProgramService{
   }
 
   //Delete assigned program
-  public delete = async ( id ) => {
+  public delete = async ( programId, user ) => {
     try{
-      const deleteResponse = await this.programRepository.delete( { program_: id } );
+      const deleteResponse = await this.programRepository.delete( { athlete_: user.id,  program_: programId } );
       if ( deleteResponse.affected !== 0 ) {
-        return( "Program " + id + " deleted succesfully" );
+        return( "Program " + programId + " deleted succesfully" );
       } 
       else {
-        return( "Not Found " + id );
+        return( "Not Found " + programId );
       }
     }
     catch( err ){

@@ -125,7 +125,7 @@ export class ApiServices{
         }
     }
 
-    public deleteAssignedProgram = async ( id ) => {
+    public deleteAssignedProgram = async ( id  ) => {
         try{
             const result = await axios.delete( `${ this.path }/assigned/${ id }`, { withCredentials: true } );
             return result.data

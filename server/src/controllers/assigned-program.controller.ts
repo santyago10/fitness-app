@@ -12,13 +12,13 @@ class AssignedProgramController {
   }
 
   public getByAthleteId = async (request: express.Request, response: express.Response) => {
-    const program = await this.service.getByAthleteId(request.params.id);
+    const program = await this.service.getByAthleteId( request.params.id );
     response.send(program);
   }
 
   public delete = async (request: express.Request, response: express.Response) => {
-    const deleteResponse = await this.service.delete(request.params.id);
-    response.send(deleteResponse);
+    const deleteResponse = await this.service.delete( request.params.id, request.user );
+    response.send( deleteResponse );
   }
 }
 
